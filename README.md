@@ -10,8 +10,7 @@
 ---
 
 This talk is a presentation of the paper "Fair Inference on Outcomes," (R. Nabi
-& I. Shpitser, 2017), available on the arXiv
-[here](https://arxiv.org/abs/1705.10378).
+& I. Shpitser, 2017), available [here](https://arxiv.org/abs/1705.10378).
 
 ---
 

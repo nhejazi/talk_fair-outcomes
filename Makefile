@@ -1,4 +1,4 @@
-TITLE = talk_template
+TITLE = 2017_fairml_shpitser
 
 .PHONY : all
 all: $(TITLE).pdf notes clean
