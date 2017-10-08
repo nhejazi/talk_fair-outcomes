@@ -20,7 +20,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % title info
-\title{Beamer Template for Presentations}
+\title{Fairness Through Mediation}
+\subtitle{\scriptsize for the seminar: \textit{Fairness in Machine Learning} \\
+                      organized by M.~Hardt, Fall 2017, UC Berkeley}
 \author{\href{http://nimahejazi.org}{Nima Hejazi}
        \\[-10pt]
        }
@@ -56,16 +58,19 @@
 
   \vspace{-2em}
 
-  \centerline{\href{https://goo.gl/ic1FpG}{\tt \scriptsize \underline{slides}: goo.gl/ic1FpG}}
+  \centerline{\href{https://goo.gl/i3CxL9}{\tt \scriptsize
+                                           \underline{slides}: goo.gl/i3CxL9}}
 
-  \vfill \hfill \includegraphics[height=6mm]{Figs/cc-zero.png} \vspace*{-0.75cm}
+  \vfill \hfill \includegraphics[height=6mm]{Figs/cc-zero.png} \vspace*{-0.5cm}
 
-  \note{This slide deck is meant to serve as a template for building
-    presentations conveniently from a reasonable baseline.
+  \note{This slide deck is for a reading group presentation on the manuscript
+    ``Fair Inference on Outcomes'' (Rabi \& Shpitser, 2017), for the seminar on
+    ``Fairness in Machine Learning'', organized in Fall 2017 by Moritz Hardt, at
+    the University of California, Berkeley.
 
-    Source: {\tt https://github.com/nhejazi/template\_talks} \\
-    Slides: {\tt https://goo.gl/1bGsgE} \\
-    With notes: {\tt https://goo.gl/ic1FpG}
+    Source: {\tt https://github.com/nhejazi/talk\_fair-outcomes} \\
+    Slides: {\tt https://goo.gl/i3CxL9} \\
+    With notes: {\tt https://goo.gl/8RWEy5)}
 }
 }
 }
@@ -78,8 +83,10 @@
 \begin{center}
 \begin{itemize}
   \itemsep12pt
-  \item point here
-  \item point here
+  \item Penalization of specific pathways in DAGs provides an avenue to encode
+    human intuition on fairness in learning algorithms.
+  \item Mediation analysis in causal inference gives a general framework through
+    which fairness intuitions may be expressed.
   \item point here
   \item point here
 \end{itemize}
@@ -120,7 +127,7 @@
 
 
 
-\begin{frame}[c]{Setting the Stage, Part I}
+\begin{frame}[c]{Preliminaries: Notation}
 
 \begin{center}
 \begin{itemize}
@@ -135,7 +142,7 @@
 
 
 
-\begin{frame}[c]{Setting the Stage, Part II}
+\begin{frame}[c]{Preliminaries: Mediation Analysis}
 
 \begin{center}
 \begin{itemize}
@@ -150,7 +157,7 @@
 
 
 
-\begin{frame}[c]{Setting the Stage, Part III}
+\begin{frame}[c]{Preliminaries: (Natural) Direct and Indirect Effects}
 
 \begin{center}
 \begin{itemize}
@@ -258,40 +265,15 @@
 
 
 
-\begin{frame}{Acknowledgments}
-
-\vspace{18pt}
-
-\begin{tabular}{@{}l@{\hspace{1.5cm}}l@{}}
-Collaborator, the first & \footnotesize \lolit University or Institution 1 \\
-Collaborator, the second & \footnotesize \lolit University or Institution 1 \\
-Collaborator, the third & \footnotesize \lolit University or Institution 1 \\
-
-\\[2ex]
-
-Collaborator, the first & \footnotesize \lolit University or Institution 2 \\
-Collaborator, the second & \footnotesize \lolit University or Institution 2 \\
-\end{tabular}
-
-\vspace{10mm}
-
-Funding source?
-
-\note{...}
-
-\end{frame}
-
-
-
 \begin{frame}[c]{}
 
 \Large
-Slides: \href{https://goo.gl/ic1FpG}{goo.gl/ic1FpG} \quad
+Slides: \href{https://goo.gl/i3CxL9}{goo.gl/i3CxL9} \quad
 \includegraphics[height=5mm]{Figs/cc-zero.png}
 
 \vspace{5mm}
 
-Source (repo): \href{https://goo.gl/HmQdNv}{goo.gl/HmQdNv}
+Notes: \href{https://goo.gl/8RWEy5}{goo.gl/8RWEy5}
 
 \vspace{5mm}
 
@@ -316,3 +298,4 @@ Source (repo): \href{https://goo.gl/HmQdNv}{goo.gl/HmQdNv}
 
 
 \end{document}
+
