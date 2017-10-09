@@ -1,4 +1,4 @@
-# Talk: "Fair Through Mediation"
+# Talk: "Fairness Through Mediation"
 
 > Materials for a reading group presentation given at a meeting of the
 > "[Fairness in Machine Learning"](https://fairmlclass.github.io/) seminar,

@@ -4,12 +4,15 @@ TITLE = 2017_fairml_shpitser
 all: $(TITLE).pdf notes clean
 
 $(TITLE).pdf: $(TITLE).tex header.tex
-	xelatex $<
+	xelatex $(TITLE)
+	bibtex $(TITLE)
+	bibtex $(TITLE)
+	xelatex $(TITLE)
 
 notes: $(TITLE)_withnotes.pdf
 
 clean:
-	rm -f *.{aux,log,nav,out,snm,toc,vrb}
+	rm -f *.{aux,log,nav,out,snm,toc,vrb,bbl,blg}
 
 $(TITLE)_withnotes.pdf: $(TITLE)_withnotes.tex header.tex
 	xelatex $(TITLE)_withnotes
