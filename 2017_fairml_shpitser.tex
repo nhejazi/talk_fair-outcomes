@@ -1,16 +1,26 @@
 \documentclass[12pt,t]{beamer}
 \usepackage{graphicx}
+%\beamerdefaultoverlayspecification{<+->}
+%\setbeamercovered{transparent}
 \setbeameroption{hide notes}
 \setbeamertemplate{note page}[plain]
 \usepackage{listings}
 \usepackage{datetime}
 \usepackage{url}
 
+%make math easier
+\usepackage{bm}
+\usepackage{amsmath}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\X}{\mathcal{X}}
+
 %Bibliography
 \usepackage{natbib}
 \bibpunct{(}{)}{,}{a}{}{;}
 \usepackage{bibentry}
-\nobibliography*
+%\nobibliography*
 
 \input{header.tex}
 
@@ -46,6 +56,7 @@
       {\tt \scriptsize \color{foreground} github/nhejazi}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
@@ -55,11 +66,11 @@
 \frame{
   \titlepage
 
-  \vspace{-2em}
+  \vspace{-1em}
 
-  \centerline{\href{https://goo.gl/i3CxL9}{\tt \scriptsize
-                                           \underline{slides}: goo.gl/i3CxL9}}
-
+  \centerline{\href{https://goo.gl/8RWEy5}{\tt \scriptsize
+                                           \underline{slides}: goo.gl/8RWEy5}}
+  \vspace{-1.5em}
   \vfill \hfill \includegraphics[height=6mm]{Figs/cc-zero.png} \vspace*{-0.5cm}
 
   \note{This slide deck is for a reading group presentation on the manuscript
@@ -69,70 +80,53 @@
 
     Source: {\tt https://github.com/nhejazi/talk\_fair-outcomes} \\
     Slides: {\tt https://goo.gl/i3CxL9} \\
-    With notes: {\tt https://goo.gl/8RWEy5)}
+    With notes: {\tt https://goo.gl/8RWEy5}
 }
 }
 }
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Preview: Summary}
 \only<1>{\addtocounter{framenumber}{-1}}
 
 \begin{center}
 \begin{itemize}
-  \itemsep12pt
-  \item Penalization of specific pathways in DAGs provides an avenue to encode
-    human intuition on fairness in learning algorithms.
-  \item Mediation analysis in causal inference gives a general framework through
-    which fairness intuitions may be expressed.
-  \item point here
-  \item anything else?
-  \item point here
+  \itemsep8pt
+  \item Mediation analysis provides a framework under which intuitive
+    definitions of fairness may be expressed.
+  \item ``Fair inference'' is analogous to causal inference, except in that the
+    counterfactuals explored refer to a ``fair'' world (n.~b., intentionally
+    vague).
+  \item Fairness may be characterized as the absence (or dampening) of a
+    \textbf{path-specific effect (PSE)}.
+  \item Restriction of a PSE is easily expressed as a likelihood maximization
+    problem that features contraining the magnitude of the undesirable PSE.
+  \item This approach to fairness allows us to avoid throwing away information
+    (e.g., ``I don't see color\dots'') while leaving specific definitions of
+    fairness to the analyst.
 \end{itemize}
 \end{center}
 
 \note{We'll go over this summary again at the end of the talk. Hopefully, it
-  will all make more sense then.
+  will make more sense then.
 }
 
 \end{frame}
 
-
-
-\begin{frame}[fragile,c]{}
-
-\begin{center}
-\begin{minipage}[c]{9.3cm}
-\begin{semiverbatim}
-\lstset{basicstyle=\normalsize}
-\begin{lstlisting}[linewidth=9.3cm]
-  It's always good to start with a
-  motivating example. Excerpts from
-  famous studies/papers or personal
-  communications usually do nicely.
-
-  It's also good practice to keep
-  things like this rather short.
-
-  --Nima
-\end{lstlisting}
-\end{semiverbatim}
-\end{minipage}
-\end{center}
-
-\note{Obviously, it's important to explain the motivating example here.
-}
-\end{frame}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Preliminaries: Notation}
 
 \begin{center}
 \begin{itemize}
-  \item ...
-  \item ...
+  \itemsep10pt
+  \item Data $\D = (Y, \bm{X})$; outcome $Y$, feature vector $\bm{X}$.
+  \item Sensitive features: $S \in \bm{X}$, where inference on $Y$ using $S$
+    \textit{might} result in discrimination.
+  \item Treatment variable: $A \in \bm{X}$.
+  \item Mediator variables: $M \in \bm{X}$ or $M \subseteq \bm{X}$.
+  \item Potential outcome: $Y(a)$, realization of $Y$ under $A = a$.
 \end{itemize}
 \end{center}
 
@@ -140,37 +134,64 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Preliminaries: Mediation Analysis}
 
 \begin{center}
 \begin{itemize}
-  \item ...
-  \item ...
+  \itemsep10pt
+  \item \textbf{Goal:} understand the mechanism by which $A$ influences $Y$.
+  \item Decompose the \textbf{ACE} into \textit{direct} and \textit{indirect}
+    effects mediated by a variable $M$.
+  \item Partition feature space $\bf{X}$ into $A$ (treatment), $M$ (mediator),
+    and $\bf{C} = \bf{X}$ \textbackslash \hspace{0.1em} $\{A, M\}$ (baseline
+    factors).
+  \item Counterfactual contrasts are expressed via \textit{nested} potential
+    outcomes (i.e., $Y(a, M(a'))$).
 \end{itemize}
 \end{center}
 
-\note{...}
+\note{
+  \begin{itemize}
+      \item Nested potential outcomes read as ``the outcome $Y$ if $A$ were set
+        to $a$ while $M$ were set to whatever value it would have attained had
+        $A$ been set to $a'$.
+  \end{itemize}
+}
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{The Average Causal Effect (ACE)}
 
 \begin{center}
 \begin{itemize}
-  \item ...
-  \item ...
+  \itemsep10pt
+  \item $\text{ACE} = \E[Y(a)] - \E[Y(a')]$
+  \item Not computed via $\E[Y \mid A],$ as associations between $A$ and $Y$ may
+    be ``partly causal'' or spurious.
+  \item Decomposition: $\text{ACE} = \text{NDE} + \text{NIE},$ where
+    \textbf{NDE} is the \textit{Natural Direct Effect} and \textbf{NIE} is the
+    \textit{Natural Indirect Effect}.
+  \item $\text{ACE} = \E[Y(a)] - \E[Y(a')] = \E[Y(a)] - \E[Y(a, M(a')] +
+    \E[(Y(a, M(a')] - \E[Y(a')]$
 \end{itemize}
 \end{center}
 
-\note{...}
+\note{
+  \begin{itemize}
+      \item Decomposition of the ACE gives us a way to express undesirable PSEs
+        using mediators
+      \item The decomposition is just by way of a telescoping sum (i.e., the old
+        ``add and subtract the same thing'' trick).
+    \end{itemize}
+}
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{The Natural \textit{Direct} Effect (NDE)}
 
@@ -185,7 +206,7 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{The Natural \textit{Indirect} Effect (NIE)}
 
@@ -200,7 +221,7 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Introducing the Method or Approach, Part I}
 
@@ -215,7 +236,7 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Introducing the Method or Approach, Part II}
 
@@ -230,7 +251,7 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Introducing the Method or Approach, Part III}
 
@@ -245,7 +266,7 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Discussion of Results, Part I}
 
@@ -260,7 +281,7 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Discussion of Results, Part II}
 
@@ -275,66 +296,72 @@
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c]{Review: Summary}
 
 \begin{center}
 \begin{itemize}
-  \itemsep12pt
-  \item Look, we proved this above.
-  \item More stuff we proved.
-  \item Yet another point here.
-  \item Final point goes here.
+  \itemsep8pt
+  \item Mediation analysis provides a framework under which intuitive
+    definitions of fairness may be expressed.
+  \item ``Fair inference'' is analogous to causal inference, except in that the
+    counterfactuals explored refer to a ``fair'' world (n.~b., intentionally
+    vague).
+  \item Fairness may be characterized as the absence (or dampening) of a
+    \textbf{path-specific effect (PSE)}.
+  \item Restriction of a PSE is easily expressed as a likelihood maximization
+    problem that features contraining the magnitude of the undesirable PSE.
+  \item This approach to fairness allows us to avoid throwing away information
+    (e.g., ``I don't see color\dots'') while leaving specific definitions of
+    fairness to the analyst.
 \end{itemize}
 \end{center}
 
-\note{It's always good to include a summary.}
+\note{It's always good to include a summary. You've seen this all before.}
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[c,allowframebreaks]{References}
+
 \bibliographystyle{apalike}
 \nocite{*}
 \bibliography{references}
 
+\note{Here's some work we've talked about. Go check these out if interested.}
+
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-\begin{frame}[c]{}
+\begin{frame}[c]{Thank you.}
 
 \Large
 Slides: \href{https://goo.gl/i3CxL9}{goo.gl/i3CxL9} \quad
 \includegraphics[height=5mm]{Figs/cc-zero.png}
 
 \vspace{5mm}
-
 Notes: \href{https://goo.gl/8RWEy5}{goo.gl/8RWEy5}
 
 \vspace{5mm}
-
 \href{https://www.stat.berkeley.edu/~nhejazi}{\tt stat.berkeley.edu/\textasciitilde{}nhejazi}
 
 \vspace{5mm}
-
 \href{http://nimahejazi.org}{\tt nimahejazi.org}
 
 \vspace{5mm}
-
 \href{https://twitter.com/nshejazi}{\tt twitter/@nshejazi}
 
 \vspace{5mm}
-
 \href{https://github.com/nhejazi}{\tt github/nhejazi}
 
 \note{Here's where you can find me, as well as the slides for this talk.}
 
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
 
