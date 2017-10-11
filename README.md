@@ -1,4 +1,4 @@
-# Talk: "Fairness Through Mediation"
+# Talk: _Fairness Through Mediation_
 
 > Materials for a reading group presentation given at a meeting of the
 > "[Fairness in Machine Learning"](https://fairmlclass.github.io/) seminar,
@@ -12,8 +12,9 @@
 This talk is a presentation of the paper "Fair Inference on Outcomes," (R. Nabi
 & I. Shpitser, 2017), available [here](https://arxiv.org/abs/1705.10378).
 
-* slides (for presentation only): [here](https://goo.gl/i3CxL9).
-* slides and notes (printer friendly): [here](https://goo.gl/8RWEy5).
+* Slides (for presentation only) are available [here](https://goo.gl/i3CxL9).
+* Slides with notes are available [here](https://goo.gl/8RWEy5) (printer
+   friendly).
 
 ---
 

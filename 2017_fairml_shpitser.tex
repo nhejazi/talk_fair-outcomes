@@ -102,9 +102,9 @@
     \textbf{path-specific effect (PSE)}.
   \item Restriction of a PSE is easily expressed as a likelihood maximization
     problem that features contraining the magnitude of the undesirable PSE.
-  \item This approach to fairness allows us to avoid throwing away information
-    (e.g., ``I don't see color\dots'') while leaving specific definitions of
-    fairness to the analyst.
+  \item This approach to fairness avoids throwing away information (i.e.,
+    ``fairness through unawareness'') but leaves the definition of fairness to
+    the analyst.
 \end{itemize}
 \end{center}
 
@@ -121,7 +121,7 @@
 \begin{center}
 \begin{itemize}
   \itemsep10pt
-  \item Data $\D = (Y, \bm{X})$; outcome $Y$, feature vector $\bm{X}$.
+  \item Data $\D = (Y, \bm{X})$; outcome $Y$ and feature vector $\bm{X}$.
   \item Sensitive features: $S \in \bm{X}$, where inference on $Y$ using $S$
     \textit{might} result in discrimination.
   \item Treatment variable: $A \in \bm{X}$.
@@ -144,8 +144,8 @@
   \item \textbf{Goal:} understand the mechanism by which $A$ influences $Y$.
   \item Decompose the \textbf{ACE} into \textit{direct} and \textit{indirect}
     effects mediated by a variable $M$.
-  \item Partition feature space $\bf{X}$ into $A$ (treatment), $M$ (mediator),
-    and $\bf{C} = \bf{X}$ \textbackslash \hspace{0.1em} $\{A, M\}$ (baseline
+  \item Partition feature space $\bm{X}$ into $A$ (treatment), $M$ (mediator),
+    and $\bf{C} = \bm{X}$ \textbackslash \hspace{0.05em} $\{A, M\}$ (baseline
     factors).
   \item Counterfactual contrasts are expressed via \textit{nested} potential
     outcomes (i.e., $Y(a, M(a'))$).
@@ -156,7 +156,7 @@
   \begin{itemize}
       \item Nested potential outcomes read as ``the outcome $Y$ if $A$ were set
         to $a$ while $M$ were set to whatever value it would have attained had
-        $A$ been set to $a'$.
+        $A$ been set to $a'$''.
   \end{itemize}
 }
 
@@ -185,7 +185,7 @@
       \item Decomposition of the ACE gives us a way to express undesirable PSEs
         using mediators
       \item The decomposition is just by way of a telescoping sum (i.e., the old
-        ``add and subtract the same thing'' trick).
+        ``addition and subtraction'' (of the same term) trick).
     \end{itemize}
 }
 
@@ -214,6 +214,32 @@
 \begin{itemize}
   \item ...
   \item ...
+\end{itemize}
+\end{center}
+
+\note{...}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Example: \textit{Thank You for Smoking}}
+
+For a better intuition of $Y(a, M(a'))$, consider the following:
+
+\begin{center}
+\begin{itemize}
+  \itemsep4pt
+  \item Let $Y$ be a health outcome (e.g., survival probability), $A$ be a
+    treatment (e.g., smoking).
+  \item Consider a decomposition of the effect of $A$ on $Y$ --- that is, let
+    $M$ be a mediator (e.g., cancer).
+  \item $A$ affects $Y$ directly (nicotine exposure) and indirectly (inducing
+    lung cancer, through $M$).
+  \item Here, $Y(a, M(a'))$ correponds to ``the response of $Y$ to an
+    intervention that sets the nicotine exposure (direct effect) to what it
+    would be in smokers, and the smoke exposure (indirect effect) to what it
+    would be in non-smokers'' (e.g., nicotine patch).
 \end{itemize}
 \end{center}
 
@@ -312,9 +338,9 @@
     \textbf{path-specific effect (PSE)}.
   \item Restriction of a PSE is easily expressed as a likelihood maximization
     problem that features contraining the magnitude of the undesirable PSE.
-  \item This approach to fairness allows us to avoid throwing away information
-    (e.g., ``I don't see color\dots'') while leaving specific definitions of
-    fairness to the analyst.
+  \item This approach to fairness avoids throwing away information (i.e.,
+    ``fairness through unawareness'') but leaves the definition of fairness to
+    the analyst.
 \end{itemize}
 \end{center}
 
