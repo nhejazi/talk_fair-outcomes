@@ -1,14 +1,16 @@
 \documentclass[12pt,t,handout]{beamer}
 \usepackage{graphicx}
-\beamerdefaultoverlayspecification{<+->}
-\setbeamercovered{transparent}
 \setbeameroption{show notes}
 \setbeamertemplate{note page}[plain]
 \usepackage{listings}
 \usepackage{datetime}
 \usepackage{url}
 
-%make math easier
+% specifications for presenter mode
+\beamerdefaultoverlayspecification{<+->}
+\setbeamercovered{transparent}
+
+% math shorthand
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{mathtools}
@@ -25,7 +27,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
-%Bibliography
+% Bibliography
 \usepackage{natbib}
 \bibpunct{(}{)}{,}{a}{}{;}
 \usepackage{bibentry}
@@ -588,7 +590,7 @@ It's always good to include a summary. You've seen this all before.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% don't want dimming of references
+% don't want dimming with references
 \setbeamercovered{}
 \beamerdefaultoverlayspecification{}
 
