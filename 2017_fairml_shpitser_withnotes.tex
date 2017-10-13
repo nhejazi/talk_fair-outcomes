@@ -11,10 +11,19 @@
 %make math easier
 \usepackage{bm}
 \usepackage{amsmath}
-\newcommand{\E}{\mathbb{E}}
+\usepackage{mathtools}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\E}{\mathbb{E}}
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\X}{\mathcal{X}}
+\newcommand{\lik}{\mathcal{L}}
+\DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{%
+  #1\;\delimsize\|\;#2%
+}
+\newcommand{\infdiv}{D\infdivx}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 %Bibliography
 \usepackage{natbib}
@@ -31,7 +40,7 @@
 
 % title info
 \title{Fairness Through Mediation}
-\subtitle{\scriptsize for the seminar: \textit{Fairness in Machine Learning} \\
+\subtitle{\scriptsize for the seminar: \textit{Fairness in Machine Learning}, \\
                       organized by M.~Hardt, Fall 2017, UC Berkeley}
 \author{\href{http://nimahejazi.org}{Nima Hejazi}
        \\[-10pt]
@@ -93,7 +102,7 @@
 
 \begin{center}
 \begin{itemize}
-  \itemsep8pt
+  \itemsep6pt
   \item Mediation analysis provides a framework under which intuitive
     definitions of fairness may be expressed.
   \item ``Fair inference'' is analogous to causal inference, except in that the
@@ -126,7 +135,7 @@
   \item Sensitive features: $S \in \bm{X}$, where inference on $Y$ using $S$
     \textit{might} result in discrimination.
   \item Treatment variable: $A \in \bm{X}$.
-  \item Mediator variables: $M \in \bm{X}$ or $M \subseteq \bm{X}$.
+  \item Mediator variables: $M \in \bm{X}$ or $\bm{M} \subseteq \bm{X}$.
   \item Potential outcome: $Y(a)$, realization of $Y$ under $A = a$.
 \end{itemize}
 \end{center}
@@ -176,17 +185,21 @@
   \item Decomposition: $\text{ACE} = \text{NDE} + \text{NIE},$ where
     \textbf{NDE} is the \textit{Natural Direct Effect} and \textbf{NIE} is the
     \textit{Natural Indirect Effect}.
-  \item $\text{ACE} = \E[Y(a)] - \E[Y(a')] = \E[Y(a)] - \E[Y(a, M(a')] +
-    \E[(Y(a, M(a')] - \E[Y(a')]$
 \end{itemize}
+\begin{equation*}
+\begin{split}
+  \text{ACE} & = \E[Y(a)] - \E[Y(a')] \\ & = \E[Y(a)] - \E[Y(a, M(a')] \\ & +
+    \E[(Y(a, M(a')] - \E[Y(a')]
+\end{split}
+\end{equation*}
 \end{center}
 
 \note{
   \begin{itemize}
       \item Decomposition of the ACE gives us a way to express undesirable PSEs
         using mediators
-      \item The decomposition is just by way of a telescoping sum (i.e., the old
-        ``addition and subtraction'' (of the same term) trick).
+      \item The decomposition is just by way of a telescoping sum arguemnt
+        (i.e., the old ``addition and subtraction'' (of the same term) trick).
     \end{itemize}
 }
 
@@ -197,13 +210,33 @@
 \begin{frame}[c]{The Natural \textit{Direct} Effect (NDE)}
 
 \begin{center}
+
+\vspace{-2em}
+\begin{equation*}
+  \text{NDE} = \E[(Y(a, M(a')] - \E[Y(a')]
+\end{equation*}
+
 \begin{itemize}
-  \item ...
-  \item ...
+  \itemsep10pt
+  \item Comparison of the mean outcome under only the part of the treatment that
+    directly affects it ($A = a$) and the placebo treatment (i.e., $A = a'$).
+  \item Note that the \textit{indirect} effect of the treatment (through the
+    mediator $M$) is ``turned off'' (i.e., $M(A = a')$).
 \end{itemize}
 \end{center}
 
-\note{...}
+\note{
+With additional causal assumptions, the NDE is identified as the mediation
+formula:
+\begin{equation*}
+  \sum_{\bm{C}, M} (\E[Y \mid a, M, \bm{C}] - \E[Y \mid a', M, \bm{C}])
+    p(M \mid a', \bm{C}) p(\bm{C})
+\end{equation*}
+
+\begin{itemize}
+    \item Estimation may be performed using plug-in estimators.
+\end{itemize}
+}
 
 \end{frame}
 
@@ -212,8 +245,17 @@
 \begin{frame}[c]{The Natural \textit{Indirect} Effect (NIE)}
 
 \begin{center}
+
+\vspace{-2em}
+\begin{equation*}
+  \text{NIE} = \E[Y(a)] - \E[(Y(a, M(a')]
+\end{equation*}
+
 \begin{itemize}
-  \item ...
+  \itemsep10pt
+  \item Comparison of the outcome affected by all treatment (both direct and
+    indirect) and the outcome where the effect through the mediator ($M$) is
+    ``turned off'' (i.e., $M(A = a')$).
   \item ...
 \end{itemize}
 \end{center}
@@ -244,17 +286,208 @@ For a better intuition of $Y(a, M(a'))$, consider the following:
 \end{itemize}
 \end{center}
 
+\note{
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Path-Specific Effects}
+
+\begin{center}
+\begin{itemize}
+  \itemsep10pt
+  \item A more general idea than the NDE and NIE --- such effects are easily
+    formulated as nested counterfactuals.
+  \item \textit{Intuition}: along a path of interest, all nodes behave as if the
+    active rule were imposed (i.e., $A = a$) while, along all other paths, nodes
+    behave as though the alternative were the case (i.e., $A = a'$).
+\end{itemize}
+
+\vspace{2em}
+
+Generally, along a path, say $A \rightarrow W \rightarrow Y$, a PSE may be
+formulated as the following:
+\begin{equation*}
+  \E[Y(a', W(M(a'), a), M(a'))] - \E[Y(a')]
+\end{equation*}
+\end{center}
+
+\note{
+With more complex assumptions, we get the \textit{edge g-formula}:
+\begin{equation*}
+  \sum_{\bm{C}, M, W} \E[Y \mid a', W, M, \bm{C}] p(W \mid a, M, \bm{C})
+    p(M \mid a', \bm{C}) p(\bm{C})
+\end{equation*}
+
+\begin{itemize}
+    \item Estimation may be performed using plug-in estimators.
+\end{itemize}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Finding Fairness}
+
+\begin{center}
+\begin{itemize}
+  \itemsep4pt
+  \item Much work has focused on defining fairness via associative relationships
+    (including equalized odds). Such criteria provided unintuive results when
+    the sensitive feature is not randomly assigned.
+  \item Here, an approach that ought to provide intuitive results (wrt
+    fairness), even when the sensitive attribute is associated with the outcome
+    (perhaps by way of an unobserved feature), is proposed.
+  \item Associative fairness metrics fail to properly model sources of
+    confounding (between $S$ and $Y$).
+  \item Generally, this failure is rooted in the fact that ``counterfactual
+    probabilities are complex functions of the observed data, no just
+    conditional densities.''
+\end{itemize}
+\end{center}
+
+\note{
+To understand the problem with associative fairness criteria, consider the
+following example:
+\begin{itemize}
+  \itemsep10pt
+  \item See section 4, paragraph 3 of the paper for details of the example
+    setup.
+  \item Letting $p(H \mid C, G)$ be a hiring rule, we would assess fairness as
+    follows: $p(H = 1 \mid C = 1) = p(H = 1 \mid C = 0) \approx 0.022$, using
+    associative fairness criteria.
+  \item Intuitively, fairness of a hiring rule would lead to equal hiring
+    probabilities for cases and controls in a hypothetical randomized trial
+    (RCT) --- i.e., $p(H(C = 1)) = p(H(C = 0))$.
+  \item In our example, application of the adjustment formula would yield $p(H(C
+    = 1)) = 0.025$ and $p(H(C = 0)) = 0.25$, a rather striking difference.
+  \item The difference between $p(H(C = 0))$ and $p(H \mid C = 0)$ is driven by
+    extreme values of $p(C \mid G)$.
+\end{itemize}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{In Pursuit of ``Fair Inference''}
+
+\begin{center}
+\begin{itemize}
+  \itemsep10pt
+  \item Fairness is, at its core, rooted in counterfactuals. Thus, we can see
+    \textit{``fair inference''} as a branch of causal inference wherein the
+    counterfactuals to be considered are with respect to a ``fair'' world.
+  \item \textit{Discrimination} may be expressed as the presence of a particular
+    PSE, with choice of the specific PSE left as a domain-specific issue.
+  \item Thus, minimization of specific PSEs corresponds to minimizing
+    discrimination and is a problem of constrained inference on statistical
+    models.
+\end{itemize}
+\end{center}
+
+\note{
+From the legal literature: ``The central question in any
+employment-discrimination case is whether the employer would have taken the same
+action had the employee been of a different race (age, sex, religion, national
+origin, etc.) and everything else had been the same.''
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Fairness as PSE Minimization}
+
+\begin{center}
+\begin{itemize}
+  \itemsep10pt
+  \item Let $p(Y, \bf{X})$ be a statistical model, assumed to be induced by a
+    \textit{causal model}.
+  \item Discrimination (wrt $Y$ based on $S \in \bm{X}$) in this model is a PSE,
+    identified as the functional $f(p(Y, \bm{X}))$.
+  \item Let $(\epsilon_l, \epsilon_u)$ be lower and upper bounds on the PSE,
+    giving the degree of unfairness considered tolerable (n.b., the PSE is
+    removed in the special case $\epsilon_l = \epsilon_u$).
+  \item \underline{\textbf{Proposal}}: transform $p(Y, \bf{X})$ into $p^*(Y,
+    \bm{X})$ under the constraint that the PSE of interest lies within
+    $(\epsilon_l, \epsilon_u)$, where the two distributions are close in the
+    sense of KL-divergence.
+\end{itemize}
+\end{center}
+
+\note{
+\begin{definition}{Kullback-Leibler Divergence}
+$$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
+  \text{dx}$$
+\end{definition}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Let's Make the World Fair}
+
+\begin{center}
+\begin{itemize}
+  \itemsep10pt
+  \item \underline{\textbf{Proposal}}: We can make \textit{any} function of $p$
+    \textbf{\textit{fair}}, merely by computing it from $p^*$ (instead of from
+    $p$).
+  \item To ensure fairness, we must make inference only in the ``fair world'',
+    just as we only perform inference on counterfactuals in causal inference.
+  \item To do this, map any $x^i$ from $p$ to a sensible version of it drawn
+    from $p^*$ --- i.e., find a $g: x^i_{p} \mapsto x^i_{p^*}$.
+  \item I want to be fair, so what exactly do I do?
+\end{itemize}
+\end{center}
+
 \note{...}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[c]{Introducing the Method or Approach, Part I}
+\begin{frame}[c]{Let's Be Fair}
 
 \begin{center}
 \begin{itemize}
-  \item ...
+  \itemsep10pt
+  \item Consider the following general setup:
+    \begin{itemize}
+      \item finite samples $\D$ drawn from $p(Y, \bm{X})$
+      \item a likelihood function $\lik_{Y, \bm{X}}(\D; \alpha)$
+      \item a discriminative PSE $f(p(Y, \bf{X}))$ with bounds $(\epsilon_l,
+        \epsilon_u)$
+      \item an estimator of the PSE $g(\D)$.
+    \end{itemize}
+  \item We obtain fairness by solving:
+    $$\hat{\alpha} = \argmax_{\alpha} \lik_{Y, \bm{X}} (\D; \alpha),$$
+    subject to $\epsilon_l \leq g(\D) \leq \epsilon_u.$
+\end{itemize}
+\end{center}
+
+\note{...}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Fairness is (Partial) (Un)Awareness}
+
+\begin{center}
+\begin{itemize}
+  \itemsep10pt
+  \item Since using all of the information contained in $p$ leads to unfairness,
+    this approach amounts to discarding information that is exclusively in $p$,
+    relative to $p^*$.
+  \item The goal of this approach is to use the available information as well as
+    possible, but only in so far as our inferences are drawn from the ``fair
+    world.''
   \item ...
 \end{itemize}
 \end{center}
@@ -265,55 +498,11 @@ For a better intuition of $Y(a, M(a'))$, consider the following:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[c]{Introducing the Method or Approach, Part II}
+\begin{frame}[c]{Discussion of Results}
 
 \begin{center}
 \begin{itemize}
-  \item ...
-  \item ...
-\end{itemize}
-\end{center}
-
-\note{...}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[c]{Introducing the Method or Approach, Part III}
-
-\begin{center}
-\begin{itemize}
-  \item ...
-  \item ...
-\end{itemize}
-\end{center}
-
-\note{...}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[c]{Discussion of Results, Part I}
-
-\begin{center}
-\begin{itemize}
-  \item ...
-  \item ...
-\end{itemize}
-\end{center}
-
-\note{...}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[c]{Discussion of Results, Part II}
-
-\begin{center}
-\begin{itemize}
+  \itemsep10pt
   \item ...
   \item ...
 \end{itemize}
@@ -329,7 +518,7 @@ For a better intuition of $Y(a, M(a'))$, consider the following:
 
 \begin{center}
 \begin{itemize}
-  \itemsep8pt
+  \itemsep6pt
   \item Mediation analysis provides a framework under which intuitive
     definitions of fairness may be expressed.
   \item ``Fair inference'' is analogous to causal inference, except in that the
