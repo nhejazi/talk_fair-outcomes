@@ -1,4 +1,4 @@
-# Talk: _Fairness Through Mediation_
+# Talk: _Fair New World_
 
 > Materials for a reading group presentation given at a meeting of the
 > "[Fairness in Machine Learning"](https://fairmlclass.github.io/) seminar,
@@ -22,7 +22,7 @@ This talk is a presentation of the paper "Fair Inference on Outcomes," (R. Nabi
 
 To the extent possible under law, [Nima Hejazi](http://nimahejazi.org)
 has waived all copyright and related or neighboring rights to
-&ldquo;[Fairness Through Mediation](https://goo.gl/i3CxL9)&rdquo;.
+&ldquo;[Fair New World](https://goo.gl/i3CxL9)&rdquo;.
 This work is published from the United States.
 <br/>
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)

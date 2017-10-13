@@ -39,7 +39,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % title info
-\title{Fairness Through Mediation}
+\title{Fair New World}
 \subtitle{\scriptsize for the seminar: \textit{Fairness in Machine Learning}, \\
                       organized by M.~Hardt, Fall 2017, UC Berkeley}
 \author{\href{http://nimahejazi.org}{Nima Hejazi}
@@ -118,8 +118,9 @@
 \end{itemize}
 \end{center}
 
-\note{We'll go over this summary again at the end of the talk. Hopefully, it
-  will make more sense then.
+\note{
+We'll go over this summary again at the end of the talk. Hopefully, it will make
+more sense then.
 }
 
 \end{frame}
@@ -140,7 +141,8 @@
 \end{itemize}
 \end{center}
 
-\note{...}
+\note{
+}
 
 \end{frame}
 
@@ -164,9 +166,9 @@
 
 \note{
   \begin{itemize}
-      \item Nested potential outcomes read as ``the outcome $Y$ if $A$ were set
-        to $a$ while $M$ were set to whatever value it would have attained had
-        $A$ been set to $a'$''.
+    \item Nested potential outcomes read as ``the outcome $Y$ if $A$ were set
+      to $a$ while $M$ were set to whatever value it would have attained had
+      $A$ been set to $a'$''.
   \end{itemize}
 }
 
@@ -196,11 +198,10 @@
 
 \note{
   \begin{itemize}
-      \item Decomposition of the ACE gives us a way to express undesirable PSEs
-        using mediators
-      \item The decomposition is just by way of a telescoping sum arguemnt
-        (i.e., the old ``addition and subtraction'' (of the same term) trick).
-    \end{itemize}
+    \item Decomposition of the ACE gives us a way to express undesirable PSEs
+      using mediators
+    \item The decomposition is just by way of a telescoping sum arguemnt.
+  \end{itemize}
 }
 
 \end{frame}
@@ -211,11 +212,6 @@
 
 \begin{center}
 
-\vspace{-2em}
-\begin{equation*}
-  \text{NDE} = \E[(Y(a, M(a')] - \E[Y(a')]
-\end{equation*}
-
 \begin{itemize}
   \itemsep10pt
   \item Comparison of the mean outcome under only the part of the treatment that
@@ -223,15 +219,23 @@
   \item Note that the \textit{indirect} effect of the treatment (through the
     mediator $M$) is ``turned off'' (i.e., $M(A = a')$).
 \end{itemize}
+
+\vspace{1em}
+\begin{definition}{Natural \textbf{Direct} Effect}
+$$\text{NDE} = \E[(Y(a, M(a')] - \E[Y(a')]$$
+\end{definition}
+
 \end{center}
 
 \note{
-With additional causal assumptions, the NDE is identified as the mediation
-formula:
-\begin{equation*}
-  \sum_{\bm{C}, M} (\E[Y \mid a, M, \bm{C}] - \E[Y \mid a', M, \bm{C}])
-    p(M \mid a', \bm{C}) p(\bm{C})
-\end{equation*}
+With additional causal assumptions, the NDE is identified as the
+
+\begin{definition}{Mediation formula}
+$$
+\sum_{\bm{C}, M} (\E[Y \mid a, M, \bm{C}] - \E[Y \mid a', M, \bm{C}])
+  p(M \mid a', \bm{C}) p(\bm{C})
+$$
+\end{definition}
 
 \begin{itemize}
     \item Estimation may be performed using plug-in estimators.
@@ -246,21 +250,24 @@ formula:
 
 \begin{center}
 
-\vspace{-2em}
-\begin{equation*}
-  \text{NIE} = \E[Y(a)] - \E[(Y(a, M(a')]
-\end{equation*}
-
 \begin{itemize}
   \itemsep10pt
   \item Comparison of the outcome affected by all treatment (both direct and
     indirect) and the outcome where the effect through the mediator ($M$) is
     ``turned off'' (i.e., $M(A = a')$).
-  \item ...
+  \item Although in a roundabout manner, this quantity gets at the effect of the
+    path-specific effect through the mediator on the outcome.
 \end{itemize}
+
+\vspace{1em}
+\begin{definition}{Natural \textbf{Indirect} Effect}
+$$\text{NIE} = \E[Y(a)] - \E[(Y(a, M(a')]$$
+\end{definition}
+
 \end{center}
 
-\note{...}
+\note{
+}
 
 \end{frame}
 
@@ -305,21 +312,24 @@ For a better intuition of $Y(a, M(a'))$, consider the following:
     behave as though the alternative were the case (i.e., $A = a'$).
 \end{itemize}
 
-\vspace{2em}
+\vspace{1em}
+\begin{definition}{Path-Specific Effect (PSE)}
+\\
+\vspace{1em}
+(Along a path, say $A \rightarrow W \rightarrow Y$)
+$$\E[Y(a', W(M(a'), a), M(a'))] - \E[Y(a')]$$
+\end{definition}
 
-Generally, along a path, say $A \rightarrow W \rightarrow Y$, a PSE may be
-formulated as the following:
-\begin{equation*}
-  \E[Y(a', W(M(a'), a), M(a'))] - \E[Y(a')]
-\end{equation*}
 \end{center}
 
 \note{
-With more complex assumptions, we get the \textit{edge g-formula}:
-\begin{equation*}
-  \sum_{\bm{C}, M, W} \E[Y \mid a', W, M, \bm{C}] p(W \mid a, M, \bm{C})
-    p(M \mid a', \bm{C}) p(\bm{C})
-\end{equation*}
+With more complex assumptions, we get the
+\begin{definition}{Edge G-formula}
+$$
+\sum_{\bm{C}, M, W} \E[Y \mid a', W, M, \bm{C}] p(W \mid a, M, \bm{C})
+  p(M \mid a', \bm{C}) p(\bm{C})
+$$
+\end{definition}
 
 \begin{itemize}
     \item Estimation may be performed using plug-in estimators.
@@ -350,12 +360,10 @@ With more complex assumptions, we get the \textit{edge g-formula}:
 \end{center}
 
 \note{
-To understand the problem with associative fairness criteria, consider the
-following example:
+To see the problem with associative fairness criteria, consider the following
+example (see section 4, paragraph 3 of paper for details):
 \begin{itemize}
   \itemsep10pt
-  \item See section 4, paragraph 3 of the paper for details of the example
-    setup.
   \item Letting $p(H \mid C, G)$ be a hiring rule, we would assess fairness as
     follows: $p(H = 1 \mid C = 1) = p(H = 1 \mid C = 0) \approx 0.022$, using
     associative fairness criteria.
@@ -366,6 +374,7 @@ following example:
     = 1)) = 0.025$ and $p(H(C = 0)) = 0.25$, a rather striking difference.
   \item The difference between $p(H(C = 0))$ and $p(H \mid C = 0)$ is driven by
     extreme values of $p(C \mid G)$.
+  \item This is basically Simpson's paradox, or rather close to it.
 \end{itemize}
 }
 
@@ -390,10 +399,11 @@ following example:
 \end{center}
 
 \note{
-From the legal literature: ``The central question in any
-employment-discrimination case is whether the employer would have taken the same
-action had the employee been of a different race (age, sex, religion, national
-origin, etc.) and everything else had been the same.''
+\textit{From the legal literature:} \\
+``The central question in any employment-discrimination case is whether the
+employer would have taken the same action had the employee been of a different
+race (age, sex, religion, national origin, etc.) and everything else had been
+the same.''
 }
 
 \end{frame}
@@ -424,13 +434,22 @@ origin, etc.) and everything else had been the same.''
 $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
   \text{dx}$$
 \end{definition}
+
+\begin{itemize}
+  \item Why do we restrict ourselves to KL-divergence?
+  \item Well, as we'll see shortly, our approach amounts to a constrained
+    likelihood maximization problem. This makes KL-divergence a natural choice.
+  \item Were we to consider formulating our fairness metric differently, we
+    could use other distance metrics (e.g., Hellinger distance, total variation
+    distance).
+\end{itemize}
 }
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[c]{Let's Make the World Fair}
+\begin{frame}[c]{Finding Fair Worlds I}
 
 \begin{center}
 \begin{itemize}
@@ -446,19 +465,27 @@ $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
 \end{itemize}
 \end{center}
 
-\note{...}
+\note{
+\begin{itemize}
+  \item The intuition here is simply that $p^*$ includes all the same
+    information that was found in $p$, except that information that leads to
+    discrimination (is used in the unfavorable PSE).
+  \item We'll shortly see what it means to construct a fair world $p^*$.
+\end{itemize}
+}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[c]{Let's Be Fair}
+\begin{frame}[c]{Finding Fair Worlds II}
 
 \begin{center}
 \begin{itemize}
   \itemsep10pt
   \item Consider the following general setup:
     \begin{itemize}
+      \itemsep3pt
       \item finite samples $\D$ drawn from $p(Y, \bm{X})$
       \item a likelihood function $\lik_{Y, \bm{X}}(\D; \alpha)$
       \item a discriminative PSE $f(p(Y, \bf{X}))$ with bounds $(\epsilon_l,
@@ -468,16 +495,35 @@ $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
   \item We obtain fairness by solving:
     $$\hat{\alpha} = \argmax_{\alpha} \lik_{Y, \bm{X}} (\D; \alpha),$$
     subject to $\epsilon_l \leq g(\D) \leq \epsilon_u.$
+  \item In this setup, fairness is achieved by constraining parts of $p(Y,
+    \bm{X},; \alpha),$ with the choice of $g$ determining exactly what is
+    constrained.
 \end{itemize}
 \end{center}
 
-\note{...}
+\note{
+\begin{itemize}
+  \item Note that knowing $p$ and $p^*$ exactly would make the problem rather
+    easy, since we would merely use $x_{\bm{W}}^i,$ where $\bm{W}$ is simply the
+    largest subset of $X$ that contrains the PSE in a desirable manner (i.e.,
+    where $p(\bm{W}) = p^*(\bm{W})$.
+  \item Further, it's important to consider ``large'' statistical models ---
+    perhaps infinite-dimensional models? --- in order to ensure that prediction
+    (and inference, if so desired) can be optimized with respect to
+    out-of-sample observations.
+  \item In regard to both prediction and inference, it turns out that most
+    estimators that rely on the outcome ($Y$) model are not robust to its
+    misspecification. Thus, it is important to either use simpler (IPW)
+    estimators or more modern approaches (e.g., \textit{triply robust}
+    estimators).
+\end{itemize}
+}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[c]{Fairness is (Partial) (Un)Awareness}
+\begin{frame}[c]{Fairness is (Partial?) (Un)Awareness}
 
 \begin{center}
 \begin{itemize}
@@ -488,27 +534,27 @@ $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
   \item The goal of this approach is to use the available information as well as
     possible, but only in so far as our inferences are drawn from the ``fair
     world.''
-  \item ...
+  \item In this approach, fairness is characterized as the \textit{a priori}
+    \underline{inadmissability} of certain paths in the DAG of interest --- that
+    is, paths other than a single edge path might cause discrimination.
 \end{itemize}
 \end{center}
 
-\note{...}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[c]{Discussion of Results}
-
-\begin{center}
+\note{
 \begin{itemize}
-  \itemsep10pt
-  \item ...
-  \item ...
+  \item Consider the experiment of the authors using the ``adult'' dataset:
+    here, there is concern about the direct effect of gender on income class as
+    well as the effect of gender on income class through marital status. Using
+    the proposed constrained optimization approach, they are able to avoid
+    dropping sensitive variables from the analysis while improving upon the
+    efficacy of ``blind'' models.
+  \item Specifically, they estimate the PSE in the unconstrained model to be
+    $3.16$, and then restric the PSE to lie within $(0.95, 1.00)$ in the
+    ``fair'' (constrained) model. The ``fair'' model achives accuracy of $72\%$
+    while the ``blind'' model only achieves $42\%$ (the unconstrained model does
+    better, with an accuracy of $82\%$).
 \end{itemize}
-\end{center}
-
-\note{...}
+}
 
 \end{frame}
 
@@ -534,7 +580,9 @@ $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
 \end{itemize}
 \end{center}
 
-\note{It's always good to include a summary. You've seen this all before.}
+\note{
+It's always good to include a summary. You've seen this all before.
+}
 
 \end{frame}
 
@@ -546,7 +594,7 @@ $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
 \nocite{*}
 \bibliography{references}
 
-\note{Here's some work we've talked about. Go check these out if interested.}
+%\note{Here's some work we've talked about. Go check these out if interested.}
 
 \end{frame}
 
@@ -558,22 +606,26 @@ $$\infdiv{P}{Q} = \int_{-\infty}^{\infty} p(x) \text{log} \frac{p(x)}{q(x)}
 Slides: \href{https://goo.gl/i3CxL9}{goo.gl/i3CxL9} \quad
 \includegraphics[height=5mm]{Figs/cc-zero.png}
 
-\vspace{5mm}
+\vspace{3mm}
 Notes: \href{https://goo.gl/8RWEy5}{goo.gl/8RWEy5}
 
-\vspace{5mm}
-\href{https://www.stat.berkeley.edu/~nhejazi}{\tt stat.berkeley.edu/\textasciitilde{}nhejazi}
+\vspace{3mm}
+Source (repo): \href{https://goo.gl/qJSoz6}{goo.gl/qJSoz6}
 
-\vspace{5mm}
+\vspace{3mm}
+\href{https://www.stat.berkeley.edu/~nhejazi}{\tt
+  stat.berkeley.edu/\textasciitilde{}nhejazi}
+
+\vspace{3mm}
 \href{http://nimahejazi.org}{\tt nimahejazi.org}
 
-\vspace{5mm}
+\vspace{3mm}
 \href{https://twitter.com/nshejazi}{\tt twitter/@nshejazi}
 
-\vspace{5mm}
+\vspace{3mm}
 \href{https://github.com/nhejazi}{\tt github/nhejazi}
 
-\note{Here's where you can find me, as well as the slides for this talk.}
+\note{Here's where you can find me, as well as the materials from this talk.}
 
 \end{frame}
 
